@@ -47,6 +47,54 @@
         "lng": "19.4677734375"
       },
       "id": 98443198
+    },
+    {
+      "cityName": "Castello de la Plana",
+      "country": "Spain",
+      "emoji": "🇪🇸",
+      "date": "2024-05-16T12:03:13.067Z",
+      "notes": "asd",
+      "position": {
+        "lat": "40.00447583427404",
+        "lng": "-0.0032615661621093754"
+      },
+      "id": 98443199
+    },
+    {
+      "cityName": "Berlin",
+      "country": "Germany",
+      "emoji": "🇩🇪",
+      "date": "2024-05-16T17:29:50.694Z",
+      "notes": "asd",
+      "position": {
+        "lat": "52.5773931176269",
+        "lng": "13.384265899658203"
+      },
+      "id": 98443200
+    },
+    {
+      "cityName": "Encamp",
+      "country": "Andorra",
+      "emoji": "🇦🇩",
+      "date": "2024-05-24T17:48:10.000Z",
+      "notes": "asd",
+      "position": {
+        "lat": "42.52879629320373",
+        "lng": "1.5710449218750002"
+      },
+      "id": 98443201
+    },
+    {
+      "cityName": "Teslic",
+      "country": "Bosnia and Herzegovina",
+      "emoji": "🇧🇦",
+      "date": "2024-05-16T18:04:43.959Z",
+      "notes": "ASD",
+      "position": {
+        "lat": "44.5278427984555",
+        "lng": "17.841796875000004"
+      },
+      "id": 98443202
     }
   ]
 }

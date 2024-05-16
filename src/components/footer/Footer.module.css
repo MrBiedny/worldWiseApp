@@ -1,8 +1,8 @@
-.footer {
-  margin-top: auto;
+.copyright {
+  color: var(--color-light--1);
+  font-size: 1.2rem;
 }
 
-.copyright {
-  font-size: 1.2rem;
-  color: var(--color-light--1);
+.footer {
+  margin-top: auto;
 }

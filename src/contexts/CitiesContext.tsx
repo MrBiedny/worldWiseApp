@@ -1,23 +1,41 @@
 import {
+  Dispatch,
+  ReactNode,
   createContext,
   useCallback,
   useContext,
   useEffect,
   useReducer,
 } from "react";
+import CityTypes from "../types/CityTypes";
+
+interface State {
+  cities: CityTypes[];
+  isLoading: boolean;
+  currentCity: CityTypes;
+  error: string;
+}
+
+type Action =
+  | { type: "loading" }
+  | { type: "cities/loaded"; payload: CityTypes[] }
+  | { type: "city/loaded"; payload: CityTypes }
+  | { type: "city/created"; payload: CityTypes }
+  | { type: "city/deleted"; payload: number }
+  | { type: "rejected"; payload: string };
 
 const BASE_URL = "http://localhost:9000";
 
-const CitiesContext = createContext();
-
-const initalState = {
+const initialState: State = {
   cities: [],
   isLoading: false,
-  currentCity: {},
+  currentCity: {} as CityTypes,
   error: "",
 };
 
-function reducer(state, action) {
+const CitiesContext = createContext(initialState);
+
+function reducer(state: State, action: Action) {
   switch (action.type) {
     case "loading":
       return { ...state, isLoading: true };
@@ -46,11 +64,11 @@ function reducer(state, action) {
   }
 }
 
-function CitiesProvider({ children }) {
-  const [{ cities, isLoading, currentCity, error }, dispatch] = useReducer(
-    reducer,
-    initalState
-  );
+function CitiesProvider({ children }: { children: ReactNode }) {
+  const [{ cities, isLoading, currentCity, error }, dispatch]: [
+    State,
+    Dispatch<Action>
+  ] = useReducer(reducer, initialState);
 
   useEffect(function () {
     async function fetchCities() {
@@ -87,7 +105,7 @@ function CitiesProvider({ children }) {
     [currentCity.id]
   );
 
-  async function createCity(newCity) {
+  async function createCity(newCity: CityTypes) {
     dispatch({ type: "loading" });
     try {
       const res = await fetch(`${BASE_URL}/cities`, {

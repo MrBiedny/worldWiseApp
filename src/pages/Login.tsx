@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import styles from "./Login.module.css";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/FakeAuthContext";
+
 import PageNav from "../components/pageNav/PageNav";
 import Button from "../components/button/Button";
-import { useAuth } from "../contexts/FakeAuthContext";
-import { useNavigate } from "react-router-dom";
+import styles from "./Login.module.css";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("jack@example.com");
@@ -12,7 +13,7 @@ export default function Login() {
   const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (email && password) login(email, password);

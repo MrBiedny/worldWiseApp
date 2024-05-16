@@ -1,22 +1,24 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./Map.module.css";
+import { useEffect, useState } from "react";
 import {
   MapContainer,
   Marker,
   Popup,
   TileLayer,
   useMap,
-  useMapEvent,
+  useMapEvents,
 } from "react-leaflet";
-import { useEffect, useState } from "react";
+import { LatLngExpression, LatLngTuple } from "leaflet";
 import { useCities } from "../../contexts/CitiesContext";
 import { useGeolocation } from "../../hooks/useGeolocation.js";
 import { useUrlPosition } from "../../hooks/useUrlPosition.js";
+
 import Button from "../button/Button";
+import styles from "./Map.module.css";
 
 function Map() {
   const { cities } = useCities();
-  const [mapPosition, setMapPosition] = useState([40, 0]);
+  const [mapPosition, setMapPosition] = useState<LatLngExpression>([40, 0]);
 
   const {
     isLoading: isLoadingPosition,
@@ -27,7 +29,8 @@ function Map() {
 
   useEffect(
     function () {
-      if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
+      if (mapLat !== null && mapLng !== null)
+        setMapPosition([parseFloat(mapLat), parseFloat(mapLng)]);
     },
     [mapLat, mapLng]
   );
@@ -73,15 +76,15 @@ function Map() {
   );
 }
 
-function ChangeCenter({ position }) {
+function ChangeCenter({ position }: { position: LatLngExpression }) {
   const map = useMap();
-  map.setView(position);
+  map.setView(position as LatLngTuple);
   return null;
 }
 
 function DetectClick() {
   const navigate = useNavigate();
-  useMapEvent({
+  useMapEvents({
     click: (e) => navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`),
   });
 }

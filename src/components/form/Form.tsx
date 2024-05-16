@@ -1,26 +1,24 @@
-// "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
-
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-import styles from "./Form.module.css";
+import { useCities } from "../../contexts/CitiesContext.js";
+import { useUrlPosition } from "../../hooks/useUrlPosition.js";
+
 import Button from "../button/Button";
 import BackButton from "../backButton/BackButton";
-
-import { useUrlPosition } from "../../hooks/useUrlPosition.js";
 import Message from "../message/Message.js";
 import Spinner from "../spinner/Spinner.js";
-import { useCities } from "../../contexts/CitiesContext.js";
-import { useNavigate } from "react-router-dom";
+import styles from "./Form.module.css";
 
-export function convertToEmoji(countryCode) {
+export function convertToEmoji(countryCode: string) {
   const codePoints = countryCode
     .toUpperCase()
     .split("")
-    .map((char) => 127397 + char.charCodeAt());
+    .map((char: string) => 127397 + char.charCodeAt(0));
   return String.fromCodePoint(...codePoints);
 }
 
@@ -61,7 +59,11 @@ function Form() {
           setCountry(data.countryName);
           setEmoji(convertToEmoji(data.countryCode));
         } catch (err) {
-          setGeocodingError(err.message);
+          if (err instanceof Error) {
+            setGeocodingError(err.message);
+          } else {
+            setGeocodingError("An unknown error occurred");
+          }
         } finally {
           setIsLoadingGeocoding(false);
         }
@@ -71,7 +73,7 @@ function Form() {
     [lat, lng]
   );
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!cityName || !date) return;
@@ -116,7 +118,7 @@ function Form() {
 
         <DatePicker
           id="date"
-          onChange={(date) => setDate(date)}
+          onChange={(date) => date && setDate(date)}
           selected={date}
           dateFormat="dd/MM/yyy"
         />
